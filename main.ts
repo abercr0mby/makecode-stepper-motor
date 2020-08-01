@@ -63,6 +63,9 @@ function move_motor_one_step (is_forward: boolean) {
         basic.pause(pause_for)
     }
 }
+input.onButtonPressed(Button.B, function () {
+    move_motor(false, 5)
+})
 let pause_for = 0
 let current_direction = false
 let count = 0
