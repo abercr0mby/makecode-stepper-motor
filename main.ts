@@ -1,3 +1,24 @@
+input.onButtonPressed(Button.A, function on_button_pressed_a() {
+    move_motor(true, default_steps)
+    move_motor(false, default_steps)
+})
+input.onGesture(Gesture.TiltLeft, function on_tilt_left() {
+    let stop = true
+})
+input.onGesture(Gesture.TiltRight, function on_tilt_right() {
+    talk()
+})
+function talk() {
+    while (!stop) {
+        open_and_close_mouth(10)
+    }
+}
+
+function open_and_close_mouth(steps: number) {
+    move_motor(true, steps)
+    move_motor(false, steps)
+}
+
 function move_motor(is_forward: boolean, steps: number) {
     
     count = 0
@@ -8,30 +29,6 @@ function move_motor(is_forward: boolean, steps: number) {
     }
 }
 
-input.onButtonPressed(Button.A, function on_button_pressed_a() {
-    move_motor(true, default_steps)
-    move_motor(false, default_steps)
-})
-input.onGesture(Gesture.TiltLeft, function on_tilt_left() {
-    move_motor(true, default_steps)
-    move_motor(false, default_steps)
-})
-input.onGesture(Gesture.TiltRight, function on_tilt_right() {
-    move_motor(true, 10)
-    move_motor(false, 10)
-    move_motor(true, 10)
-    move_motor(false, 10)
-    move_motor(true, 10)
-    move_motor(false, 10)
-    move_motor(true, 10)
-    move_motor(false, 10)
-    move_motor(true, 10)
-    move_motor(false, 10)
-    move_motor(true, 10)
-    move_motor(false, 10)
-    move_motor(true, 10)
-    move_motor(false, 10)
-})
 function move_motor_one_step(is_forward: boolean) {
     
     pause_for = 0.5
@@ -86,14 +83,30 @@ function move_motor_one_step(is_forward: boolean) {
 input.onButtonPressed(Button.B, function on_button_pressed_b() {
     move_motor(false, 5)
 })
+/** 
+def on_forever():
+    if input.light_level() > 150:
+        move_motor(True, 5)
+        basic.pause(20)
+        move_motor(True, 5)
+        basic.pause(20)
+        move_motor(True, 5)
+        basic.pause(20)
+        move_motor(True, 5)
+        basic.pause(20)
+        move_motor(False, 20)
+        basic.pause(20)        
+basic.forever(on_forever)
+
+ */
 let pause_for = 0
 let current_direction = false
 let count = 0
-let default_steps = 0
 bluetooth.startAccelerometerService()
 bluetooth.startButtonService()
 bluetooth.startIOPinService()
 bluetooth.startLEDService()
 bluetooth.startTemperatureService()
 led.enable(false)
-default_steps = 40
+let stop = false
+let default_steps = 40
