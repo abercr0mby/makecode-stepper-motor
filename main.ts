@@ -3,15 +3,22 @@ input.onButtonPressed(Button.A, function on_button_pressed_a() {
     move_motor(false, default_steps)
 })
 input.onGesture(Gesture.TiltLeft, function on_tilt_left() {
-    let stop = true
+    stop_talking()
 })
 input.onGesture(Gesture.TiltRight, function on_tilt_right() {
     talk()
 })
 function talk() {
+    
+    stop = false
     while (!stop) {
-        open_and_close_mouth(10)
+        open_and_close_mouth(randint(1, 10) + randint(1, 10))
     }
+}
+
+function stop_talking() {
+    
+    stop = true
 }
 
 function open_and_close_mouth(steps: number) {
@@ -83,22 +90,7 @@ function move_motor_one_step(is_forward: boolean) {
 input.onButtonPressed(Button.B, function on_button_pressed_b() {
     move_motor(false, 5)
 })
-/** 
-def on_forever():
-    if input.light_level() > 150:
-        move_motor(True, 5)
-        basic.pause(20)
-        move_motor(True, 5)
-        basic.pause(20)
-        move_motor(True, 5)
-        basic.pause(20)
-        move_motor(True, 5)
-        basic.pause(20)
-        move_motor(False, 20)
-        basic.pause(20)        
-basic.forever(on_forever)
-
- */
+let default_steps = 10
 let pause_for = 0
 let current_direction = false
 let count = 0
@@ -109,4 +101,3 @@ bluetooth.startLEDService()
 bluetooth.startTemperatureService()
 led.enable(false)
 let stop = false
-let default_steps = 40

@@ -6,21 +6,28 @@ def on_button_pressed_a():
 input.on_button_pressed(Button.A, on_button_pressed_a)
 
 def on_tilt_left():
-    stop = True
+    stop_talking()
 input.on_gesture(Gesture.TILT_LEFT, on_tilt_left)
 
 def on_tilt_right():
     talk()                       
 input.on_gesture(Gesture.TILT_RIGHT, on_tilt_right)
 
-
 def talk():
+    global stop
+    stop = False
     while not stop:
-        open_and_close_mouth(10)
+        open_and_close_mouth(randint(1, 10) + randint(1, 10))            
+
+def stop_talking():
+    global stop
+    stop = True
 
 def open_and_close_mouth(steps: int):
     move_motor(True, steps)
     move_motor(False, steps)
+
+
 
 def move_motor(is_forward: bool, steps: number):
     global count, current_direction
@@ -81,21 +88,8 @@ def move_motor_one_step(is_forward: bool):
 def on_button_pressed_b():
     move_motor(False, 5)
 input.on_button_pressed(Button.B, on_button_pressed_b)
-"""
-def on_forever():
-    if input.light_level() > 150:
-        move_motor(True, 5)
-        basic.pause(20)
-        move_motor(True, 5)
-        basic.pause(20)
-        move_motor(True, 5)
-        basic.pause(20)
-        move_motor(True, 5)
-        basic.pause(20)
-        move_motor(False, 20)
-        basic.pause(20)        
-basic.forever(on_forever)
-"""
+
+default_steps = 10
 pause_for = 0
 current_direction = False
 count = 0
@@ -106,4 +100,3 @@ bluetooth.start_led_service()
 bluetooth.start_temperature_service()
 led.enable(False)
 stop = False
-default_steps = 40
