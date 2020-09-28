@@ -1,24 +1,31 @@
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
-    move_motor(true, default_steps)
-    move_motor(false, default_steps)
+    toggle_talk()
+})
+input.onButtonPressed(Button.B, function on_button_pressed_b() {
+    
+    stop = false
+    move_motor(false, 5)
 })
 input.onGesture(Gesture.TiltLeft, function on_tilt_left() {
-    stop_talking()
+    toggle_talk()
 })
 input.onGesture(Gesture.TiltRight, function on_tilt_right() {
-    talk()
+    toggle_talk()
 })
 function talk() {
     
-    stop = false
-    while (!stop) {
-        open_and_close_mouth(randint(1, 10) + randint(1, 10))
+    while (true) {
+        if (!stop) {
+            open_and_close_mouth(randint(1, 10) + randint(1, 10))
+        }
+        
+        basic.pause(100)
     }
 }
 
-function stop_talking() {
+function toggle_talk() {
     
-    stop = true
+    stop = !stop
 }
 
 function open_and_close_mouth(steps: number) {
@@ -87,9 +94,6 @@ function move_motor_one_step(is_forward: boolean) {
     
 }
 
-input.onButtonPressed(Button.B, function on_button_pressed_b() {
-    move_motor(false, 5)
-})
 let default_steps = 10
 let pause_for = 0
 let current_direction = false
@@ -100,4 +104,5 @@ bluetooth.startIOPinService()
 bluetooth.startLEDService()
 bluetooth.startTemperatureService()
 led.enable(false)
-let stop = false
+let stop = true
+talk()

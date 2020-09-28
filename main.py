@@ -1,33 +1,36 @@
-
-
 def on_button_pressed_a():
-    move_motor(True, default_steps)
-    move_motor(False, default_steps)
+    toggle_talk()
 input.on_button_pressed(Button.A, on_button_pressed_a)
 
+def on_button_pressed_b():
+    global stop
+    stop = False
+    move_motor(False, 5)
+input.on_button_pressed(Button.B, on_button_pressed_b)
+
 def on_tilt_left():
-    stop_talking()
+    toggle_talk()
 input.on_gesture(Gesture.TILT_LEFT, on_tilt_left)
 
 def on_tilt_right():
-    talk()                       
+    toggle_talk()                  
 input.on_gesture(Gesture.TILT_RIGHT, on_tilt_right)
+
 
 def talk():
     global stop
-    stop = False
-    while not stop:
-        open_and_close_mouth(randint(1, 10) + randint(1, 10))            
+    while True:
+        if not stop:
+            open_and_close_mouth(randint(1, 10) + randint(1, 10)) 
+        basic.pause(100)           
 
-def stop_talking():
+def toggle_talk():
     global stop
-    stop = True
+    stop = not stop
 
 def open_and_close_mouth(steps: int):
     move_motor(True, steps)
     move_motor(False, steps)
-
-
 
 def move_motor(is_forward: bool, steps: number):
     global count, current_direction
@@ -85,10 +88,6 @@ def move_motor_one_step(is_forward: bool):
         pins.digital_write_pin(DigitalPin.P3, 0)
         basic.pause(pause_for)
 
-def on_button_pressed_b():
-    move_motor(False, 5)
-input.on_button_pressed(Button.B, on_button_pressed_b)
-
 default_steps = 10
 pause_for = 0
 current_direction = False
@@ -99,4 +98,6 @@ bluetooth.start_io_pin_service()
 bluetooth.start_led_service()
 bluetooth.start_temperature_service()
 led.enable(False)
-stop = False
+stop = True
+
+talk()
