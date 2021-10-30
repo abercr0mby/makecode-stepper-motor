@@ -1,3 +1,23 @@
+def on_button_pressed_a():
+    toggle_talk()
+input.on_button_pressed(Button.A, on_button_pressed_a)
+
+def on_button_pressed_b():
+    global stop
+    stop = True
+    move_motor(False, 5)
+input.on_button_pressed(Button.B, on_button_pressed_b)
+
+def on_gesture_tilt_left():
+    if tilt_enabled:
+            toggle_talk()
+input.on_gesture(Gesture.TILT_LEFT, on_gesture_tilt_left)
+
+def on_gesture_tilt_right():
+    if tilt_enabled:
+        toggle_talk()
+input.on_gesture(Gesture.TILT_RIGHT, on_gesture_tilt_right)
+
 def move_motor(is_forward: bool, steps: number):
     global count, current_direction
     count = 0
@@ -5,10 +25,6 @@ def move_motor(is_forward: bool, steps: number):
     while count < steps and current_direction == is_forward:
         count = count + 1
         move_motor_one_step(is_forward)
-
-def on_button_pressed_a():
-    toggle_talk()
-input.on_button_pressed(Button.A, on_button_pressed_a)
 
 def move_motor_one_step(is_forward2: bool):
     global pause_for
@@ -57,34 +73,20 @@ def move_motor_one_step(is_forward2: bool):
         pins.digital_write_pin(DigitalPin.P2, 0)
         pins.digital_write_pin(DigitalPin.P3, 0)
         basic.pause(pause_for)
+
 def toggle_talk():
     global stop
     stop = not (stop)
-
-def on_gesture_tilt_left():
-    if tilt_enabled:
-            toggle_talk()
-input.on_gesture(Gesture.TILT_LEFT, on_gesture_tilt_left)
 
 def talk():
     while True:
         if not (stop):
             open_and_close_mouth(randint(1, 10) + randint(1, 10))
         basic.pause(100)
+        
 def open_and_close_mouth(steps2: number):
     move_motor(True, steps2)
     move_motor(False, steps2)
-
-def on_button_pressed_b():
-    global stop
-    stop = False
-    move_motor(False, 5)
-input.on_button_pressed(Button.B, on_button_pressed_b)
-
-def on_gesture_tilt_right():
-    if tilt_enabled:
-        toggle_talk()
-input.on_gesture(Gesture.TILT_RIGHT, on_gesture_tilt_right)
 
 pause_for = 0
 current_direction = False

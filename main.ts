@@ -1,3 +1,23 @@
+input.onButtonPressed(Button.A, function on_button_pressed_a() {
+    toggle_talk()
+})
+input.onButtonPressed(Button.B, function on_button_pressed_b() {
+    
+    stop = true
+    move_motor(false, 5)
+})
+input.onGesture(Gesture.TiltLeft, function on_gesture_tilt_left() {
+    if (tilt_enabled) {
+        toggle_talk()
+    }
+    
+})
+input.onGesture(Gesture.TiltRight, function on_gesture_tilt_right() {
+    if (tilt_enabled) {
+        toggle_talk()
+    }
+    
+})
 function move_motor(is_forward: boolean, steps: number) {
     
     count = 0
@@ -8,9 +28,6 @@ function move_motor(is_forward: boolean, steps: number) {
     }
 }
 
-input.onButtonPressed(Button.A, function on_button_pressed_a() {
-    toggle_talk()
-})
 function move_motor_one_step(is_forward2: boolean) {
     
     pause_for = 0.5
@@ -67,12 +84,6 @@ function toggle_talk() {
     stop = !stop
 }
 
-input.onGesture(Gesture.TiltLeft, function on_gesture_tilt_left() {
-    if (tilt_enabled) {
-        toggle_talk()
-    }
-    
-})
 function talk() {
     while (true) {
         if (!stop) {
@@ -88,17 +99,6 @@ function open_and_close_mouth(steps2: number) {
     move_motor(false, steps2)
 }
 
-input.onButtonPressed(Button.B, function on_button_pressed_b() {
-    
-    stop = false
-    move_motor(false, 5)
-})
-input.onGesture(Gesture.TiltRight, function on_gesture_tilt_right() {
-    if (tilt_enabled) {
-        toggle_talk()
-    }
-    
-})
 let pause_for = 0
 let current_direction = false
 let count = 0
